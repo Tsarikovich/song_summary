@@ -7,9 +7,11 @@ poetry install
 python manage.py collectstatic --noinput
 
 # Apply database migrations
-python manage.py migrate
+echo "Applying database migrations..."
+python manage.py migrate || { echo "Migrations failed"; exit 1; }
 
 # Create a superuser if it doesn't exist
+echo "Creating superuser..."
 python manage.py shell -c "
 import os
 from django.contrib.auth.models import User
@@ -22,4 +24,4 @@ if username and email and password:
         print(f'Superuser {username} created.')
     else:
         print(f'Superuser {username} already exists.')
-"
+" || { echo "Superuser creation failed"; exit 1; }
