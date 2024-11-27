@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: song-summary
+    runtime: python
+    plan: free
+    buildCommand: poetry install
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
