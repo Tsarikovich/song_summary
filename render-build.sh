@@ -1,19 +1,25 @@
 #!/usr/bin/env bash
+
+# Debugging options and safety measures
 echo "Running build script..."
-set -e  # Exit on error
+set -e  # Exit on any error
+set -x  # Debug output to show executed commands
 
 # Install dependencies
-poetry install
+echo "Installing dependencies..."
+poetry install || { echo "Dependency installation failed"; exit 1; }
 
 # Collect static files
-echo "Running collectstatic..."
-python manage.py collectstatic --noinput
+echo "Collecting static files..."
+python manage.py collectstatic --noinput || { echo "Collectstatic failed"; exit 1; }
 
 # Apply database migrations
-echo "Running migrations..."
+echo "Checking and applying migrations..."
+python manage.py showmigrations || { echo "Failed to check migrations"; exit 1; }
+python manage.py migrate --plan || { echo "Migration plan failed"; exit 1; }
 python manage.py migrate || { echo "Migrations failed"; exit 1; }
 
-# Create superuser if it doesn't exist
+# Create a superuser if it doesn't exist
 echo "Creating superuser..."
 python manage.py shell -c "
 import os
