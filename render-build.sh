@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+echo "Running build script..."
 set -e  # Exit on error
 
 # Install dependencies
