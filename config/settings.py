@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-u(_67$gj#nqkleos^&-2x01c@_2w1zgo&emwqz^7ktt=fn$=hr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['fierce-sea-23762-fb0022940c71.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["song-summary.onrender.com", '127.0.0.1', 'localhost']
 
 # Application definition
 
