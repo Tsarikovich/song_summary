@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
+set -e  # Exit on error
+
 # Install dependencies
 poetry install
 
-# Run collectstatic
+# Collect static files
+echo "Running collectstatic..."
 python manage.py collectstatic --noinput
 
 # Apply database migrations
-echo "Applying database migrations..."
+echo "Running migrations..."
 python manage.py migrate || { echo "Migrations failed"; exit 1; }
 
-# Create a superuser if it doesn't exist
+# Create superuser if it doesn't exist
 echo "Creating superuser..."
 python manage.py shell -c "
 import os
@@ -25,3 +28,5 @@ if username and email and password:
     else:
         print(f'Superuser {username} already exists.')
 " || { echo "Superuser creation failed"; exit 1; }
+
+echo "Build process completed successfully."
